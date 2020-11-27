@@ -8,8 +8,6 @@ import { CSVLink } from "react-csv";
 
 export default function Carlist() {
   const [cars, setCars] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [msg, setMsg] = useState("");
 
   useEffect(() => {
     getCars();
@@ -26,10 +24,7 @@ export default function Carlist() {
     if (window.confirm("Are you sure?")) {
       fetch(link, { method: "DELETE" })
         .then((_) => getCars())
-        .then((_) => {
-          setMsg("Car deleted");
-          setOpen(true);
-        })
+        .then((_) => {})
         .catch((err) => console.error(err));
     }
   };
@@ -43,10 +38,7 @@ export default function Carlist() {
       body: JSON.stringify(car),
     })
       .then((_) => getCars())
-      .then((_) => {
-        setMsg("New car added");
-        setOpen(true);
-      })
+      .then((_) => {})
       .catch((err) => console.error(err));
   };
 
@@ -59,15 +51,8 @@ export default function Carlist() {
       body: JSON.stringify(car),
     })
       .then((_) => getCars())
-      .then((_) => {
-        setMsg("Car updated");
-        setOpen(true);
-      })
+      .then((_) => {})
       .catch((err) => console.error(err));
-  };
-
-  const handleClose = () => {
-    setOpen(false);
   };
 
   const columns = [
@@ -147,16 +132,24 @@ export default function Carlist() {
 
   return (
     <div>
-      <CSVLink
-        data={cars}
-        headers={headers}
-        separator={" / "}
-        enclosingCharacter={`  `}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-end",
+          alignItems: "center",
+        }}
       >
-        Download CSV format
-      </CSVLink>
-
-      <AddCars addCar={addCar} />
+        <AddCars addCar={addCar} />
+        <CSVLink
+          data={cars}
+          headers={headers}
+          separator={" / "}
+          enclosingCharacter={`  `}
+        >
+          Download CSV format
+        </CSVLink>
+      </div>
       <ReactTable
         filterable={true}
         defaultPageSize={10}
