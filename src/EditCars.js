@@ -20,7 +20,6 @@ export default function EditCars(props) {
   });
 
   const handleClickOpen = () => {
-    console.log(props.car);
     setCar({
       brand: props.car.brand,
       model: props.car.model,

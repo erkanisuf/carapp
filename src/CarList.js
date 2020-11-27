@@ -4,6 +4,7 @@ import "react-table-v6/react-table.css";
 import Button from "@material-ui/core/Button";
 import EditCars from "./EditCars";
 import AddCars from "./AddCars";
+import { CSVLink } from "react-csv";
 
 export default function Carlist() {
   const [cars, setCars] = useState([]);
@@ -95,8 +96,11 @@ export default function Carlist() {
       accessor: "price",
     },
     {
+      filterable: false,
+      sortable: false,
       Cell: (row) => <EditCars car={row.original} updateCar={updateCar} />,
     },
+
     {
       accessor: "_links.self.href",
       filterable: false,
@@ -114,8 +118,44 @@ export default function Carlist() {
     },
   ];
 
+  const headers = [
+    {
+      label: "Brand",
+      key: "brand",
+    },
+    {
+      label: "Model",
+      key: "model",
+    },
+    {
+      label: "Color",
+      key: "color",
+    },
+    {
+      label: "Year",
+      key: "year",
+    },
+    {
+      label: "Fuel",
+      key: "fuel",
+    },
+    {
+      label: "Price (€)",
+      key: "price",
+    },
+  ];
+
   return (
     <div>
+      <CSVLink
+        data={cars}
+        headers={headers}
+        separator={" / "}
+        enclosingCharacter={`  `}
+      >
+        Download CSV format
+      </CSVLink>
+
       <AddCars addCar={addCar} />
       <ReactTable
         filterable={true}
